@@ -16,7 +16,9 @@ app.use('/about',(req,res) => {
     res.send('This is about page...');
 })
 
-app.get('/user', (req,res) => {
+app.get('/user/:userId', (req,res) => {
+   // console.log(req.query);
+    console.log(req.params);
     res.send({firstName:"Vivek", lastName:"Vanga"})
 })
 
@@ -34,3 +36,8 @@ app.use("/",(req, res) => {
 app.listen(7777, ()=>{
     console.log("Server is successfully listening on port 7777...");
 })
+
+
+// git remote add origin https://github.com/Vivek-9/devTinder.git
+// git branch -M main
+// git push -u origin main
