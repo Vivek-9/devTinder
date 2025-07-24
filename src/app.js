@@ -1,41 +1,41 @@
 const express = require("express");
 
-const app = express();
+const connectDB = require('./config/database');
+const app = express(); 
+const User = require("./models/user");
 
-
-app.use("/home/2",(req,res) => { 
-    res.send('This is Second Home page');  
+app.post("/signup", async(req, res)=>{
+    const user = new User({
+        firstName: "Akhila",
+        lastName: "Vanga",
+        emailId:"vivek.akhila@gmail.com",
+        password:"vivek@12345" 
+    });
+    try{
+        await user.save();
+        res.send("User Added successfully!"); 
+    }
+    catch(err){
+        res.status(400).send("Error saving the user: "+ err.message);
+    }
+    
 })
 
 
-app.use("/home",(req,res) => { 
-    res.send('This is Home page');  
-})
 
-app.use('/about',(req,res) => {
-    res.send('This is about page...');
-})
 
-app.get('/user/:userId', (req,res) => {
-   // console.log(req.query);
-    console.log(req.params);
-    res.send({firstName:"Vivek", lastName:"Vanga"})
-})
-
-app.post('/user', (req,res) => {
-    res.send('Data successfully saved to Database');
-})
-
-app.delete('/user', (req,res) => {
-    res.send('Deleted Successfully');
-})
-app.use("/",(req, res) => {
-    res.send("Hello from the server!");
-})
-
-app.listen(7777, ()=>{
+connectDB()
+    .then(() => {
+        console.log("Database connection established...");
+        app.listen(7777, ()=>{
     console.log("Server is successfully listening on port 7777...");
-})
+}) 
+    })
+    .catch((err) => { 
+        console.error("Database connot be connected!!");
+    })
+
+
 
 
 // git remote add origin https://github.com/Vivek-9/devTinder.git
